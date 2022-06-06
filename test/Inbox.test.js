@@ -23,13 +23,22 @@ beforeEach(async()=> {
     });
 })
 
-it('deploys a Inbox contract', ()=> {
-    console.log(inbox._address);
-    console.log(inbox.options.address);
-    assert.ok(inbox.options.address);
-})
+describe('Inbox', ()=> {
+    it('deploys a Inbox contract', ()=> {
+        console.log(inbox._address);
+        console.log(inbox.options.address);
+        assert.ok(inbox.options.address);
+    })
+    
+    it('has a default message', async ()=> {
+        const message = await inbox.methods.message().call();
+        assert.equal('Hello', message);
+    })
 
-it('has a default message', async ()=> {
-    const message = await inbox.methods.message().call();
-    assert.equal('Hello', message);
+    it('can change the message', async () => {
+        const transaction = await inbox.methods.setMessage('byee').send({from: accounts[0]});
+        console.log(transaction);
+        const message = await inbox.methods.message().call();
+        assert.equal('byee', message);
+    })
 })
