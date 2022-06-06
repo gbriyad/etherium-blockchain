@@ -13,12 +13,23 @@ beforeEach(async()=> {
     accounts = await web3.eth.getAccounts();
 
     inbox = await new web3.eth.Contract(JSON.parse(interface))
-    .deploy({data: bytecode, arguments: ['Hello']})
-    .send({from: accounts[0], gas: '1000000'});
+    .deploy({
+        data: bytecode,
+        arguments: ['Hello']
+    })
+    .send({
+        from: accounts[0],
+        gas: '1000000'
+    });
 })
 
 it('deploys a Inbox contract', ()=> {
     console.log(inbox._address);
     console.log(inbox.options.address);
     assert.ok(inbox.options.address);
+})
+
+it('has a default message', async ()=> {
+    const message = await inbox.methods.message().call();
+    assert.equal('Hello', message);
 })
