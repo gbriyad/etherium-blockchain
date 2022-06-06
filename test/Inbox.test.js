@@ -10,7 +10,6 @@ let accounts;
 beforeEach(async()=> {
     accounts = await web3.eth.getAccounts();
 })
-
 it('fetch account', ()=> {
     console.log(accounts);
 })
